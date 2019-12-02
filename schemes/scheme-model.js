@@ -12,10 +12,32 @@ return db('schemes');
 
 
 function findById( id ) {
-  return db('schemes').where({ id }).first();
+  return db('schemes')
+  .where({ id })
+  .first();
 }
 
+async function add(scheme) {
+  const [id] = await db('schemes')
+  .insert(scheme);
 
-// function insert() {
+  return findById(id);
+}
 
-// }
+function update(changes, id) {
+  db('schemes')
+  .where({ id })
+  .update(changes);
+
+  return findById(id);
+}
+
+function remove(id) {
+  findById(id);
+
+  db('schemes')
+  .where({ id })
+  .del()
+
+  return findById(id);
+}
